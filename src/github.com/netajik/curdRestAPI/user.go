@@ -35,7 +35,11 @@ func GetUsers(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetUser(w http.ResponseWriter, r *http.Request) {
-
+	w.Header().Set("Content-Type", "application/json")
+	var user User
+	json.NewDecoder(r.Body).Decode(&user)
+	DB.Create(&user)
+	json.NewEncoder(w).Encode(user)
 }
 
 func CreateUser(w http.ResponseWriter, r *http.Request) {
@@ -44,7 +48,6 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	json.NewDecoder(r.Body).Decode(&user)
 	DB.Create(&user)
 	json.NewEncoder(w).Encode(user)
-
 }
 
 func UpdateUser(w http.ResponseWriter, r *http.Request) {
